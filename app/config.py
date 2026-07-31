@@ -7,6 +7,8 @@ class Settings(BaseSettings):
     openrouter_api_key: str
     model_name: str = "deepseek/deepseek-v4-flash"
     pocket_api_key: str
+    vikunja_api_key: str
+    vikunja_bot_name: str
 
 
 settings = Settings()  # ty: ignore
