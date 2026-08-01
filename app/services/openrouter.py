@@ -30,9 +30,7 @@ class NoteParser():
 
                 Your task is to review the transcript and:
                 1. Assign one or more overall tags to the meeting from the TagEnum.
-                2. Extract all action items and categorize them strictly into the appropriate list (qi_tickets, releaf_tickets, winebucket_tickets, w_todo, p_todo).
-                   - Use 'w_todo' (Work Todo) for general professional administrative tasks (e.g., 'reply to email', 'schedule meeting'), engineering management (eg. create ticket, create plan for x, writing spec for y feature, create presentations for z etc.)
-                   - Use 'p_todo' (Personal Todo) for personal life tasks, or winebucket todos.
+                2. Extract all action items and categorize them strictly using the project field on the todo item.
                 3. For each action item, provide a clear, actionable title, and a detailed description that captures the full context of the task.
                 4. Estimate the priority based on urgency language in the text, and format any deadlines as standard timestamps.
                 """
@@ -73,10 +71,6 @@ class TagEnum(str, Enum):
     winebucket = "winebucket"
     personal = "personal"
 
-class ActionItemEnum(str, Enum):
-    work_todo = "work_todo"
-    personal_todo = "personal_todo"
-
 class ActionItemTagEnum(str, Enum):
     releaf = "releaf"
     quantified_impacts = "quantified_impacts"
@@ -84,11 +78,10 @@ class ActionItemTagEnum(str, Enum):
     personal = "personal"
 
 class ActionItem(BaseModel):
-    type: ActionItemEnum
-    project: ActionItemTagEnum | None
+    project: ActionItemTagEnum | None = None
     title: str
-    description: str | None
-    priority: ActionItemPriorityEnum | None
+    description: str | None = None
+    priority: ActionItemPriorityEnum | None = Field(default=None, description="This represents the priority of the task where 1 is the lowest priority and 4 is the highest most urgent priority.")
     assigned_to: str | None = None
     due_date: datetime | None = Field(
             default=None,
@@ -106,8 +99,7 @@ class ActionItemPriorityEnum(Enum):
 
 class NoteParserOutput(BaseModel):
     tags: list[TagEnum]
-    p_todo: list[ActionItem] | None
-    w_todo: list[ActionItem] | None
+    todo: list[ActionItem] | None
 
 
 def format_pocket_recording(

@@ -78,22 +78,22 @@ class Summarization(BaseModel):
 
 
 class V2(BaseModel):
-    summary: Summary
-    mindMap: MindMap
-    actionItems: ActionsItems
+    summary: Summary | None = None
+    mindMap: MindMap | None = None
+    actionItems: ActionsItems | None = None
 
 
 class ActionsItems(BaseModel):
-    actions: list[ActionItem]
-    message: str | None
-    notification_message: str | None
-    version: str
+    actions: list[ActionItem] | None = None
+    message: str | None = None
+    notification_message: str | None = None
+    version: str | None = None
 
 
 class ActionItem(BaseModel):
     assignee: str
     context: str
-    dueDate: datetime | None
+    dueDate: datetime | None = None
     globalActionItemId: str
     id: str
     isCompleted: bool

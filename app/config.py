@@ -8,7 +8,7 @@ class Settings(BaseSettings):
     model_name: str = "deepseek/deepseek-v4-flash"
     pocket_api_key: str
     vikunja_api_key: str
-    vikunja_bot_name: str
+    pocket_webhook_signing_secret: str
 
 
 settings = Settings()  # ty: ignore
